@@ -5,6 +5,7 @@ const Context = React.createContext({
   cartList: [],
   onClickSave: () => {},
   onClickAddToCart: () => {},
+  onClickRemoveBookMark: () => {},
 });
 
 export default Context;

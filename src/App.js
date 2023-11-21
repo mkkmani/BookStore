@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/HomeRoute";
 import BookDetails from "./components/BookRoute";
-import SavedList from "./components/SavedCollectionRoute";
+import SavedList from "./components/SavedRoute";
 import Cart from "./components/CartRoute";
 
 import Context from "./Context/Context";
@@ -19,10 +19,12 @@ class App extends Component {
   componentDidMount() {
     // Accessing the lists from local storage and adding them to state
     const localSavedList = JSON.parse(localStorage.getItem("savedList")) || [];
-    const localCartList = JSON.parse(localStorage.getItem("cartList")) || [];
+    const localCartList = JSON.parse(localStorage.getItem("booksCart")) || [];
 
+    console.log("saved", localSavedList);
+    console.log("cart", localCartList);
     this.setState({
-      SavedList: localSavedList,
+      savedList: localSavedList,
       cartList: localCartList,
     });
   }
@@ -33,17 +35,24 @@ class App extends Component {
 
     const existingIndex = savedList.findIndex((book) => book.isbn13 === isbn13);
 
-    if (existingIndex !== -1) {
-      // Book already available in the list so removing
-      const updatedList = savedList.filter((book) => book.isbn13 !== isbn13);
-      this.setState({ savedList: updatedList }, () => {
-        localStorage.setItem("savedlist", JSON.stringify(updatedList));
-      });
-    } else {
-      // Book is not available in list so adding
+    if (existingIndex === -1) {
       const updatedList = [...savedList, details];
       this.setState({ savedList: updatedList }, () => {
-        localStorage.setItem("savedlist", JSON.stringify(updatedList));
+        localStorage.setItem("savedList", JSON.stringify(updatedList));
+      });
+    } else {
+      return;
+    }
+  };
+
+  onClickRemoveBookMark = (details) => {
+    const { isbn13 } = details;
+    const { savedList } = this.state;
+    const existingIndex = savedList.findIndex((book) => book.isbn13 === isbn13);
+    if (existingIndex !== -1) {
+      const updatedList = savedList.filter((book) => book.isbn13 !== isbn13);
+      this.setState({ savedList: updatedList }, () => {
+        localStorage.setItem("savedList", JSON.stringify(updatedList));
       });
     }
   };
@@ -59,13 +68,13 @@ class App extends Component {
       const updatedCartList = [...cartList];
       updatedCartList[existingIndex].quantity += 1;
       this.setState({ cartList: updatedCartList }, () => {
-        localStorage.setItem("cartList", JSON.stringify(updatedCartList));
+        localStorage.setItem("booksCart", JSON.stringify(updatedCartList));
       });
     } else {
       // Book is not available in the cart so add
       const updatedCartList = [...cartList, { ...details, quantity: 1 }];
       this.setState({ cartList: updatedCartList }, () => {
-        localStorage.setItem("cartList", JSON.stringify(updatedCartList));
+        localStorage.setItem("booksCart", JSON.stringify(updatedCartList));
       });
     }
   };
@@ -79,6 +88,7 @@ class App extends Component {
           cartList,
           onClickSave: this.onClickSave,
           onClickAddToCart: this.onClickAddToCart,
+          onClickRemoveBookMark: this.onClickRemoveBookMark,
         }}
       >
         <Router>

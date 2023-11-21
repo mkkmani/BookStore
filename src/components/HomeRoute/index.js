@@ -242,7 +242,7 @@ class Home extends Component {
           onChange={this.onChangeInput}
           onKeyDown={this.onKeyDown}
           name="searchInput"
-          className="home-search"
+          className="home-search pl-5"
           placeholder="Search with title or ISBN number"
         />
         <FcSearch className="search-icon" onClick={this.onClickSearch} />

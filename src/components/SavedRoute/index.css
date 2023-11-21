@@ -1,0 +1,57 @@
+.top-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    padding-top: 10px;
+}
+
+.saved-title{
+    font-size: 24px;
+    color: #2a2b57;
+}
+
+.no-books-div{
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.no-books-img{
+    height: 200px;
+
+}
+
+.link-item{
+    text-decoration: none;
+    color: #2a2b57;
+}
+
+.saved-ul-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 50vh;
+}
+
+.saved-image{
+    height: 180px;
+    width: 150px;
+    margin: 0px;
+    line-height: 0.8;
+    padding: 0px;
+    display: flex;
+    
+}
+
+
+
+.saved-text{
+    font-size: 12px;
+}
