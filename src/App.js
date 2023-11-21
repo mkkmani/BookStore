@@ -79,6 +79,33 @@ class App extends Component {
     }
   };
 
+  onClickIncOrDec = (details, quantity) => {
+    const { cartList } = this.state;
+    const { isbn13 } = details;
+
+    const updatedCartList = cartList
+      .map((item) => {
+        if (item.isbn13 === isbn13) {
+          const newQuantity = item.quantity + quantity;
+          if (newQuantity <= 0) {
+            return null;
+          }
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      })
+      .filter(Boolean);
+
+    this.setState(
+      {
+        cartList: updatedCartList,
+      },
+      () => {
+        localStorage.setItem("localCartList", JSON.stringify(updatedCartList));
+      }
+    );
+  };
+
   render() {
     const { savedList, cartList } = this.state;
     return (
@@ -89,6 +116,7 @@ class App extends Component {
           onClickSave: this.onClickSave,
           onClickAddToCart: this.onClickAddToCart,
           onClickRemoveBookMark: this.onClickRemoveBookMark,
+          onClickIncOrDec: this.onClickIncOrDec,
         }}
       >
         <Router>

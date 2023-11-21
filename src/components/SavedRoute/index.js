@@ -45,7 +45,10 @@ class SavedList extends Component {
             <div>
               <ul className="saved-ul-list row">
                 {savedList.map((each) => (
-                  <li className="col-12 col-md-6 mb-3" key={each.isbn13}>
+                  <li
+                    className="col-12 col-md-6 mb-3 d-flex flex-row"
+                    key={each.isbn13}
+                  >
                     <Link className="link-item" to={`/book/${each.isbn13}`}>
                       <img
                         className="saved-image"
