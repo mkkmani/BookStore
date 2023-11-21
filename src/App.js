@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Welcome from "./components/WelcomeRoute";
+import Home from "./components/HomeRoute";
 
 import "./App.css";
 
@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Welcome />
+        <Home />
       </div>
     );
   }
