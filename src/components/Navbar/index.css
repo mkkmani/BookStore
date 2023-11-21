@@ -3,11 +3,11 @@
     flex-direction: row;
     align-items: center;
     margin-left: 4px;
-    color: #ba3f3f;
+    color: #ba3f3f !important;
 }
 
 .logo-name:hover{
-    color: #e3d027;
+    color: #e3d027 !important;
 }
 
 .logo-icon{
@@ -30,5 +30,5 @@
 }
 
 .nav-container{
-    width: 90vw;
+    width: 100vw;
 }

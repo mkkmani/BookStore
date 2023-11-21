@@ -1,5 +1,3 @@
-import "../../bootstrapSetup";
-
 import { GiBookshelf } from "react-icons/gi";
 import { FaFacebook, FaSquareInstagram, FaTwitter } from "react-icons/fa6";
 import "./index.css";

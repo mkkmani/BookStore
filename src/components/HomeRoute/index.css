@@ -11,6 +11,11 @@
     height: 130px;
 }
 
+.slide-img:hover{
+    width: 150px;
+    height: 180px;
+}
+
 .new-arrivals{
     color: #65b7e0;
     font-family: 'sans-serif';

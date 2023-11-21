@@ -3,12 +3,10 @@ import { ClockLoader } from "react-spinners";
 import Slider from "react-slick";
 import { FcSearch } from "react-icons/fc";
 import { CiCircleChevLeft, CiCircleChevRight } from "react-icons/ci";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-import Navbar from "../Navbar";
-import Footer from "../Footer";
 
 import "./index.css";
 
@@ -118,6 +116,7 @@ class Home extends Component {
     return (
       <div className="d-flex flex-row justify-content-center align-items-center">
         <button
+          key="left"
           className="page-btn"
           type="button"
           onClick={this.onClickLeft}
@@ -127,6 +126,7 @@ class Home extends Component {
         </button>
         <p className="page-num">{activePage}</p>
         <button
+          key="right"
           className="page-btn"
           type="button"
           onClick={this.onClickRight}
@@ -151,8 +151,10 @@ class Home extends Component {
       infinite: true,
       speed: 500,
       slidesToShow: 5,
-      slidesToScroll: 3,
+      slidesToScroll: 1,
       initialSlide: 0,
+      autoplay: true,
+      autoplaySpeed: 3600,
       responsive: [
         {
           breakpoint: 1024,
@@ -181,13 +183,13 @@ class Home extends Component {
       ],
     };
     return (
-      <div>
+      <div className="slides-div">
         <h2 className="text-warning new-arrivals"> New Arrivals </h2>
         <Slider {...settings}>
           {newBooksList.map((each) => (
-            <a href={`/book/${each.isbn13}`}>
+            <Link to={`/book/${each.isbn13}`} key={each.isbn13}>
               <img className="slide-img" src={each.image} alt={each.title} />
-            </a>
+            </Link>
           ))}
         </Slider>
       </div>
@@ -201,15 +203,14 @@ class Home extends Component {
       <>
         <ul className="books-ul">
           {booksList.map((each) => (
-            <li className="book-li col-6 col-md-4">
-              <a
+            <li key={each.isbn13} className="book-li col-6 col-md-4">
+              <Link
                 className="book-a d-flex flex-column align-items-center"
-                href={`/book/${each.isbn13}`}
-                key={each.isbn13}
+                to={`/book/${each.isbn13}`}
               >
                 <img className="book-img" src={each.image} alt={each.title} />
                 <p className="book-name">{each.title}</p>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -248,16 +249,12 @@ class Home extends Component {
       </div>
       <div>{this.renderBooksList()}</div>
       <div>{this.renderPagination}</div>
-      <Footer />
     </div>
   );
 
   render() {
     return (
-      <div className="container home-container">
-        <Navbar />
-        {this.renderHomePage()}
-      </div>
+      <div className="container home-container">{this.renderHomePage()}</div>
     );
   }
 }

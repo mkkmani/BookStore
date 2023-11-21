@@ -1,0 +1,35 @@
+.book-container{
+    min-height: 80vh;
+}
+
+.titles-div{
+    background-color: #c8cbcf;
+}
+
+.title-main{
+    font-size: 26px;
+    color: #a65e1b;
+}
+
+.sub{
+    font-size: 22px;
+    color: #2a2b57;
+}
+
+.book-title{
+    color: #0a1c33;
+    font-size: 20px;
+}
+
+.loader-container{
+    display: flex;
+    height: 50vh;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (min-width:567px) {
+    .book-container{
+        min-height: 40vh;
+    }
+}
