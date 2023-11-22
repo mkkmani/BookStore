@@ -17,7 +17,6 @@ class App extends Component {
   state = { savedList: [], cartList: [] };
 
   componentDidMount() {
-    // Accessing the lists from local storage and adding them to state
     const localSavedList = JSON.parse(localStorage.getItem("savedList")) || [];
     const localCartList = JSON.parse(localStorage.getItem("booksCart")) || [];
 
@@ -64,14 +63,12 @@ class App extends Component {
     const existingIndex = cartList.findIndex((book) => book.isbn13 === isbn13);
 
     if (existingIndex !== -1) {
-      // Book already available in the cart so update quantity
       const updatedCartList = [...cartList];
       updatedCartList[existingIndex].quantity += 1;
       this.setState({ cartList: updatedCartList }, () => {
         localStorage.setItem("booksCart", JSON.stringify(updatedCartList));
       });
     } else {
-      // Book is not available in the cart so add
       const updatedCartList = [...cartList, { ...details, quantity: 1 }];
       this.setState({ cartList: updatedCartList }, () => {
         localStorage.setItem("booksCart", JSON.stringify(updatedCartList));
@@ -101,7 +98,7 @@ class App extends Component {
         cartList: updatedCartList,
       },
       () => {
-        localStorage.setItem("localCartList", JSON.stringify(updatedCartList));
+        localStorage.setItem("booksCart", JSON.stringify(updatedCartList));
       }
     );
   };
