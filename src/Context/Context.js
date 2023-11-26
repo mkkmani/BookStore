@@ -7,6 +7,7 @@ const Context = React.createContext({
   onClickAddToCart: () => {},
   onClickRemoveBookMark: () => {},
   onClickIncOrDec: () => {},
+  onClearSavedList: () => {},
 });
 
 export default Context;

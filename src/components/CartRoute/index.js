@@ -27,7 +27,7 @@ const Cart = () => (
               />
               <p className="fw-bold">Your cart is empty.</p>
               <Link to="/">
-                <button className="btn btn-primary">Home</button>
+                <button className="btn btn-primary">Browse Books</button>
               </Link>
             </div>
           ) : (

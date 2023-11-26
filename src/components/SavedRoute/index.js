@@ -6,15 +6,14 @@ import "./index.css";
 
 class SavedList extends Component {
   onClickClearList = () => {
-    const emptyList = [];
-    this.setState({ savedList: emptyList });
-    localStorage.setItem("savedList", JSON.stringify(emptyList));
+    localStorage.removeItem("savedList");
+    console.log("cleared the list");
   };
 
   renderSavedList = () => (
     <Context.Consumer>
       {(context) => {
-        const { savedList, onClickRemoveBookMark } = context;
+        const { savedList, onClickRemoveBookMark, onClearSavedList } = context;
 
         if (!savedList || savedList.length === 0) {
           return (
@@ -24,7 +23,7 @@ class SavedList extends Component {
                 src="https://res.cloudinary.com/dj1bucjya/image/upload/v1700596360/bookstore/nobooks-ic_hqefot.png"
                 alt="no books"
               />
-              <h1>No saved books</h1>
+              <h1 className="no-books-title">No saved books</h1>
               <Link to="/">
                 <button className="btn btn-primary" type="button">
                   Browse books
@@ -38,7 +37,11 @@ class SavedList extends Component {
           <div>
             <div className="top-div">
               <h1 className="saved-title">Saved Books</h1>
-              <button className="btn btn-danger" type="button">
+              <button
+                className="btn btn-danger"
+                type="button"
+                onClick={() => onClearSavedList()}
+              >
                 Clear List
               </button>
             </div>

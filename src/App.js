@@ -76,6 +76,12 @@ class App extends Component {
     }
   };
 
+  onClearSavedList = () => {
+    this.setState({ savedList: [] }, () => {
+      localStorage.removeItem("savedList");
+    });
+  };
+
   onClickIncOrDec = (details, quantity) => {
     const { cartList } = this.state;
     const { isbn13 } = details;
@@ -114,6 +120,7 @@ class App extends Component {
           onClickAddToCart: this.onClickAddToCart,
           onClickRemoveBookMark: this.onClickRemoveBookMark,
           onClickIncOrDec: this.onClickIncOrDec,
+          onClearSavedList: this.onClearSavedList,
         }}
       >
         <Router>
