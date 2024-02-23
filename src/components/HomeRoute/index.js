@@ -1,4 +1,4 @@
-import { Component } from "react";
+import  { useState, useEffect } from "react";
 import { ClockLoader } from "react-spinners";
 import Slider from "react-slick";
 import { FcSearch } from "react-icons/fc";
@@ -16,23 +16,21 @@ const apiStatusList = {
   failure: "FAILURE",
 };
 
-class Home extends Component {
-  state = {
-    newBooksList: [],
-    booksList: [],
-    searchInput: "react",
-    activePage: 1,
-    newBooksApiStatus: "",
-    getBooksApiStatus: "",
-  };
+const Home = () => {
+  const [newBooksList, setNewBooksList] = useState([]);
+  const [booksList, setBooksList] = useState([]);
+  const [searchInput, setSearchInput] = useState("react");
+  const [activePage, setActivePage] = useState(1);
+  const [newBooksApiStatus, setNewBooksApiStatus] = useState("");
+  const [getBooksApiStatus, setGetBooksApiStatus] = useState("");
 
-  componentDidMount() {
-    this.getNewArrivals();
-    this.getBooks();
-  }
+  useEffect(() => {
+    getNewArrivals();
+    getBooks();
+  }, [activePage, searchInput]);
 
-  getNewArrivals = async () => {
-    this.setState({ newBooksApiStatus: apiStatusList.loading });
+  const getNewArrivals = async () => {
+    setNewBooksApiStatus(apiStatusList.loading);
     const api = "https://api.itbook.store/1.0/new";
     const options = {
       method: "GET",
@@ -42,19 +40,14 @@ class Home extends Component {
     const data = await response.json();
 
     if (response.ok) {
-      this.setState({
-        newBooksList: data.books,
-        newBooksApiStatus: apiStatusList.success,
-      });
+      setNewBooksList(data.books);
+      setNewBooksApiStatus(apiStatusList.success);
     }
   };
 
-  getBooks = async () => {
-    this.setState({
-      getBooksApiStatus: apiStatusList.loading,
-    });
+  const getBooks = async () => {
+    setGetBooksApiStatus(apiStatusList.loading);
 
-    const { searchInput, activePage } = this.state;
     const api = `https://api.itbook.store/1.0/search/${searchInput}/${activePage}`;
     const options = {
       method: "GET",
@@ -63,63 +56,45 @@ class Home extends Component {
     const data = await response.json();
 
     if (response.ok) {
-      this.setState({
-        booksList: data.books,
-        getBooksApiStatus: apiStatusList.success,
-      });
+      setBooksList(data.books);
+      setGetBooksApiStatus(apiStatusList.success);
     } else {
-      this.setState({
-        getBooksApiStatus: apiStatusList.failure,
-      });
+      setGetBooksApiStatus(apiStatusList.failure);
     }
   };
 
-  onChangeInput = (e) => {
-    this.setState({
-      searchInput: e.target.value,
-    });
+  const onChangeInput = (e) => {
+    setSearchInput(e.target.value);
   };
 
-  onKeyDown = (e) => {
+  const onKeyDown = (e) => {
     if (e.key === "Enter") {
-      this.getBooks();
+      getBooks();
     }
   };
 
-  onClickSearch = () => {
-    this.getBooks();
+  const onClickSearch = () => {
+    getBooks();
   };
 
-  onClickLeft = () => {
-    const { activePage } = this.state;
+  const onClickLeft = () => {
     if (activePage !== 1) {
-      this.setState(
-        (prev) => ({
-          activePage: prev.activePage - 1,
-        }),
-        this.getBooks
-      );
+      setActivePage((prev) => prev - 1);
     }
   };
 
-  onClickRight = () => {
-    this.setState(
-      (prev) => ({ activePage: prev.activePage + 1 }),
-      this.getBooks
-    );
+  const onClickRight = () => {
+    setActivePage((prev) => prev + 1);
   };
 
-  renderPaginationButtons = () => {
-    const { activePage } = this.state;
-    const { booksList } = this.state;
-
+  const renderPaginationButtons = () => {
     return (
       <div className="d-flex flex-row justify-content-center align-items-center">
         <button
           key="left"
           className="page-btn"
           type="button"
-          onClick={this.onClickLeft}
+          onClick={onClickLeft}
           disabled={activePage === 1}
         >
           <CiCircleChevLeft className="page-icon" />
@@ -129,7 +104,7 @@ class Home extends Component {
           key="right"
           className="page-btn"
           type="button"
-          onClick={this.onClickRight}
+          onClick={onClickRight}
           disabled={booksList.length < 10}
         >
           <CiCircleChevRight className="page-icon" />
@@ -138,14 +113,13 @@ class Home extends Component {
     );
   };
 
-  renderLoader = () => (
+  const renderLoader = () => (
     <div className="loader-container d-flex justify-content-center align-items-center">
       <ClockLoader color="skyblue" height="50" width="50" />
     </div>
   );
 
-  renderSlides = () => {
-    const { newBooksList } = this.state;
+  const renderSlides = () => {
     var settings = {
       dots: false,
       infinite: true,
@@ -196,9 +170,7 @@ class Home extends Component {
     );
   };
 
-  renderBooks = () => {
-    const { booksList } = this.state;
-
+  const renderBooks = () => {
     return (
       <>
         <ul className="books-ul">
@@ -214,49 +186,41 @@ class Home extends Component {
             </li>
           ))}
         </ul>
-        <div>{this.renderPaginationButtons()}</div>
+        <div>{renderPaginationButtons()}</div>
       </>
     );
   };
 
-  renderBooksList = () => {
-    const { getBooksApiStatus } = this.state;
-
+  const renderBooksList = () => {
     switch (getBooksApiStatus) {
       case apiStatusList.loading:
-        return this.renderLoader();
+        return renderLoader();
       case apiStatusList.success:
-        return this.renderBooks();
-
+        return renderBooks();
       default:
         return null;
     }
   };
 
-  renderHomePage = () => (
+  const renderHomePage = () => (
     <div>
-      <div>{this.renderSlides()}</div>
+      <div>{renderSlides()}</div>
       <div className="input-container m-auto">
         <input
           type="search"
-          onChange={this.onChangeInput}
-          onKeyDown={this.onKeyDown}
+          onChange={onChangeInput}
+          onKeyDown={onKeyDown}
           name="searchInput"
           className="home-search pl-5"
           placeholder="Search with title or ISBN number"
         />
-        <FcSearch className="search-icon" onClick={this.onClickSearch} />
+        <FcSearch className="search-icon" onClick={onClickSearch} />
       </div>
-      <div>{this.renderBooksList()}</div>
-      <div>{this.renderPagination}</div>
+      <div>{renderBooksList()}</div>
     </div>
   );
 
-  render() {
-    return (
-      <div className="container home-container">{this.renderHomePage()}</div>
-    );
-  }
-}
+  return <div className="container home-container">{renderHomePage()}</div>;
+};
 
 export default Home;
